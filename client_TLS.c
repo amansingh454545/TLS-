@@ -133,6 +133,9 @@ int main(int argc, char **argv) {
     /* Perform SSL handshake */
     if (SSL_connect(ssl) <= 0) {
         perror("SSL handshake failed");
+        SSL_free(ssl);
+        SSL_CTX_free(ssl_ctx);
+        close(sockfd);
         return EXIT_FAILURE;
     }
 
