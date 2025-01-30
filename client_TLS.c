@@ -31,8 +31,16 @@ SSL_CTX *init_ssl_client() {
         exit(EXIT_FAILURE);
     }
 
+    /* Enforce server certificate verification */
+    if (SSL_CTX_load_verify_locations(ctx, "server_cert.pem", NULL) <= 0) {
+        perror("Failed to load CA certificate");
+        exit(EXIT_FAILURE);
+    }
+    SSL_CTX_set_verify(ctx, SSL_VERIFY_PEER, NULL);
+
     return ctx;
 }
+
 
 void str_overwrite_stdout() {
     printf("%s", "> ");
