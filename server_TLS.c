@@ -53,6 +53,12 @@ SSL_CTX *init_ssl() {
         exit(EXIT_FAILURE);
     }
     
+    /* Verify private key matches the certificate */
+    if (!SSL_CTX_check_private_key(ctx)) {
+        perror("Private key does not match the certificate");
+        exit(EXIT_FAILURE);
+    }
+
     return ctx;
 }
 
